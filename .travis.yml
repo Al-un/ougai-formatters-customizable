@@ -6,7 +6,7 @@ rvm:
   - 2.5.1
 env:
   global:
-    CC_TEST_REPORTER_ID=CODE_CLIMATE_TOKEN
+    CC_TEST_REPORTER_ID=6e9f72c700e6fa38deeb5e4287b12f6a6dfcf67ce8638128c9959ad6e873f2a7
 
 # Dependencies
 before_install: 

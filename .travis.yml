@@ -32,5 +32,16 @@ script:
   rspec
 
 after_script:
-  # Code Climate: sending reporting
-  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+  # Code Climate: sending reporting only for Ruby 2.5.1 on non-PR
+  - |
+    if [ "$TRAVIS_RUBY_VERSION" == "2.5.1" ] ; then 
+      if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+        ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; 
+      else
+        echo "Test report sent for non-pull request"
+      end
+    else
+      echo "Test report for version $TRAVIS_RUBY_VERSION not sent to Code Climate" 
+    fi
+  # Uncomment following line if test reporting has to be sent all the times
+  # - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT

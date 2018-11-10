@@ -3,6 +3,6 @@
 module Ougai
   module Formatters
     # Customizable extension version
-    CUSTOMIZABLE_VERSION = '0.1.0'
+    CUSTOMIZABLE_VERSION = '1.0.0'
   end
 end

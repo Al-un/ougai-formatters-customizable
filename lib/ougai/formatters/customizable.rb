@@ -29,7 +29,9 @@ module Ougai
         def default_msg_format(color_config)
           proc do |severity, datetime, _progname, data|
             msg = data.delete(:msg)
-            severity = color_config.color(:severity, severity, severity)
+            severity  = color_config.color(:severity, severity, severity)
+            datetime  = color_config.color(:datetime, datetime, severity)
+            msg       = color_config.color(:msg, msg, severity)
 
             "[#{datetime}] #{severity}: #{msg}"
           end

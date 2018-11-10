@@ -4,15 +4,17 @@ language: ruby
 cache: bundler
 rvm:
   - 2.5.1
+
 env:
   global:
-    CC_TEST_REPORTER_ID=6e9f72c700e6fa38deeb5e4287b12f6a6dfcf67ce8638128c9959ad6e873f2a7
+    # CC_TEST_REPORTER_ID defined in environment variables
 
 # Dependencies
 before_install: 
   # Bundler
   - gem install bundler -v 1.16.5
-  # Code climate
+  # Code Climate: initialization
+  # note: simplecov and simplecov-console gems required
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
@@ -24,4 +26,5 @@ script:
   rspec
 
 after_script:
+  # Code Climate: sending reporting
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT

@@ -3,14 +3,45 @@ sudo: false
 language: ruby
 cache: bundler
 rvm:
+  # To align with Ougai
+  - 2.3.0
+  - 2.4.1
+  - 2.5.0
+  - 2.6.0-preview1
+  # My development environment
   - 2.5.1
+
+env:
+  global:
+    # CC_TEST_REPORTER_ID defined in environment variables
 
 # Dependencies
 before_install: 
-  gem install bundler -v 1.16.5
+  # Bundler
+  - gem install bundler -v 1.16.5
+  # Code Climate: initialization
+  # note: simplecov and simplecov-console gems required
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
 install:
   bundle install
 
 # Scripts
 script:
   rspec
+
+after_script:
+  # Code Climate: sending reporting only for Ruby 2.5.1 on non-PR
+  - |
+    if [ "$TRAVIS_RUBY_VERSION" == "2.5.1" ] ; then 
+      if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+        ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; 
+      else
+        echo "Test report sent for non-pull request"
+      fi
+    else
+      echo "Test report for version $TRAVIS_RUBY_VERSION not sent to Code Climate" 
+    fi
+  # Uncomment following line if test reporting has to be sent all the times
+  # - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT

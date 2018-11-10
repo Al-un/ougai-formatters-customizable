@@ -1,8 +1,12 @@
-require 'bundler/setup'
+require 'simplecov'
+require 'simplecov-console'
+SimpleCov.formatter = SimpleCov::Formatter::Console
+SimpleCov.start
 
 $LOAD_PATH.unshift File.expand_path('../lib', __dir__)
 require 'ougai'
 require 'ougai/formatters/customizable'
+require 'ougai/formatters/customizable/version'
 require 'awesome_print'
 
 RSpec.configure do |config|

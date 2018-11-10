@@ -69,19 +69,19 @@ RSpec.describe Ougai::Formatters::Customizable do
 
     context 'when data is not empty' do
       it 'returns awesome_printed data' do
-        expect(subject.call(a: 'a', bb: 'bb')).to eq("{\n     :a => \"a\",\n    :bb => \"bb\"\n}")
+        expect(subject.call(data)).to eq(data.ai)
       end
     end
 
     context 'when some fields are excluded' do
-      let(:printed_data) { subject.call(data) }
+      let(:data_clone)    { data.clone}
+      let(:printed_data)  { subject.call(data) }
 
       it 'prints permitted fields' do
         printed_data = subject.call(data)
-        expect(printed_data).to include(":msg => \"#{log_msg}\"")
-        expect(printed_data).to include(':status => 200')
-        expect(printed_data).to include(":method => \"GET\"")
-        expect(printed_data).to include(":path => \"/\"")
+        data_clone.delete(:ip_address)
+        awesome_print_data = subject.call(data_clone)
+        expect(printed_data).to eq(awesome_print_data)
       end
 
       it 'does not print excluded fields' do

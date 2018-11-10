@@ -9,10 +9,11 @@ module Ougai
       # The configuration,split by subject such as +level+, +msg+,
       # or +datetime+ is basically a Hash: +config+ with the subject as key
       # and values. Values can be have three types:
-      #   - String: the color escape sequence for the subject
-      #   - Hash: the color escape sequence per severity. If not all severities
-      #     are defined, a +:default+ value must be defined
-      #   - Symbol: refers to another key and same coloring is applied
+      #
+      # - +String+: the color escape sequence for the subject
+      # - +Hash+: the color escape sequence per severity. If not all severities
+      #   are defined, a +:default+ value must be defined
+      # - +Symbol+: refers to another key and same coloring is applied
       class Configuration
         class << self
           # list default color configuration
@@ -20,6 +21,7 @@ module Ougai
           #       +Ougai::Logging::Severity#to_label+
           # @note values are copied from +Ougai::Formatters::Readable+ coloring
           #       values
+          # @return [Hash] default color configuration is severities only
           def default_configuration
             {
               severity: {
@@ -35,10 +37,14 @@ module Ougai
           end
         end
 
-        # @param [Hash] configuration Color configuration mapping. Cannot be nil
-        # @param [Boolean] load_default_config If true, then default configuration
-        #         values is fetched to fill missing value from the provided 
-        #         configuration. Default is true.
+        # Configuration accept following keys:
+        # - +:load_default_config+ If true, then default configuration
+        #   values is fetched to fill missing value from the provided 
+        #   configuration. Default is true.
+        # - any remaining key is considered to be color-related and is translated
+        #   into a *subject => color rule* mapping
+        #
+        # @param [Hash] configuration color configuration. Cannot be nil
         def initialize(configuration = {})
           # check if loading or not from default configuration
           if configuration.fetch(:load_default_config) { true }
@@ -62,10 +68,13 @@ module Ougai
           end
         end
 
+        # Convenience method to color a subject for a given log severity
+        #
         # @param [Symbol] subject_key to fetch the color to color the text
         # @param [String] text to be colored text
         # @param [Symbol] severity log level
-        # @return a colored text depending on the subject
+        #
+        # @return [String] a colored text depending on the subject
         def color(subject_key, text, severity)
           color = get_color_for(subject_key, severity)
           Ougai::Formatters::Colors.color_text(color, text)
@@ -78,12 +87,14 @@ module Ougai
         # +get_color_for+ handles color inheritance: if a subject inherit color
         # from another subject, subject value is the symbol refering to the
         # other subject.
-        # !!WARNING!!: Circular references are not checked and lead to infinite
+        #
+        # @note !!WARNING!!: Circular references are not checked and lead to infinite
         # loop  
         #
-        # @param [Symbol] subject_key: to define the color to color the text
-        # @param [Symbol] severity: log level
-        # @return requested color String value or +nil+ if not colored
+        # @param [Symbol] subject_key to define the color to color the text
+        # @param [Symbol] severity log level
+        #
+        # @return [String,nil] requested color String value or +nil+ if not colored
         def get_color_for(subject_key, severity)
           # no colorization
           return nil unless @config.key?(subject_key)

@@ -13,19 +13,21 @@ module Ougai
     # 3. Errors: errors require specific log formatting
     #
     # Customizable offers a flexible way to handle each component
-    # independently with three procs:
-    # +format_msg+    Format message. Proc arguments are
-    #                 +|level, datetime, progname, data|+. This block must
-    #                 remove the key +:msg+ from +data+
-    # +format_data+   Format data. Proc argument is +|data|+.
-    # +format_err+    Format err. Proc argument is +|data|+. The proc must
-    #                 remove the key +:err+
+    # independently by assigning a proc to the following keys:
+    #
+    # 1. +:format_msg+ Format message. Proc arguments are +|level, datetime, progname, data|+. This block must remove the key +:msg+ from +data+
+    # 2. +:format_data+ Format data. Proc argument is +|data|+.
+    # 3. +:format_err+ Format err. Proc argument is +|data|+. The proc must  remove the key +:err+
     class Customizable < Ougai::Formatters::Base
       class << self
-        # Define the default main log message formatting to use.
-        # @param [Ougai::Formatters::Colors::Configuration] color_config: the
-        #         color configuration to use. Cannot be null but can have an
-        #         empty +config+ hash meaning that there is no colorization
+        # Define the default main log message formatting to use. A non-null
+        # color configuration has to be provided. The configuration can however
+        # be empty
+        #
+        # @param [Ougai::Formatters::Colors::Configuration] color_config the 
+        #         color configuration to use
+        #
+        # @return [Proc] main message formatter
         def default_msg_format(color_config)
           proc do |severity, datetime, _progname, data|
             msg = data.delete(:msg)
@@ -37,11 +39,15 @@ module Ougai
           end
         end
 
-        # Define the default error formatting to use.
+        # Define the default error formatting to use which handles field
+        # exclusion and plain mode for awesome-print
+        #
         # @param [Array<Symbol>] excluded_fields list of key to exclude from
         #         +data+ before printing logs
         # @param [Boolean] plain parameter to define if Awesome-Print renders
         #         in plain mode or not
+        #
+        # @return [Proc] data formatter
         def default_data_format(excluded_fields, plain)
           proc do |data|
             excluded_fields.each { |field| data.delete(field) }
@@ -52,8 +58,11 @@ module Ougai
         end
 
         # Define the default error formatting to use.
-        # @param [Integer] trace_indent space indentation to prepend before
+        #
+        # @param [Integer] trace_indent space indentation to prepend before 
         #         trace content
+        #
+        # @return [Proc] error formatter
         def default_err_format(trace_indent = 4)
           proc do |data|
             next nil unless data.key?(:err)
@@ -71,11 +80,13 @@ module Ougai
       # @param [String] app_name application name (execution program name if nil)
       # @param [String] hostname hostname (hostname if nil)
       # @param [Hash] opts the initial values of attributes
-      # @option opts [String] :trace_max_lines (100) the value of trace_max_lines attribute
+      # @option opts [String] :trace_max_lines (100) the value of 
+      #         trace_max_lines attribute
       # @option opts [String] :plain (false) the value of plain attribute
-      # @option opts [String] :excluded_fields ([]) the value of excluded_fields attribute
+      # @option opts [String] :excluded_fields ([]) the value of 
+      #         excluded_fields attribute
       # @option opts [Ougai::Formatters::Colors::Configuration] :color_config
-      #         assign a color configuration. Takes predecence over :colors
+      #         assign a color configuration.
       # @option opts [Proc] :format_msg main message formatter
       # @option opts [Proc] :format_data data formatter
       # @option opts [Proc] :format_err error formatter
@@ -115,6 +126,8 @@ module Ougai
       # @param [String] progname optional program name
       # @param [Hash] data log data. Main message is stored under the key +:msg+
       #         while errors are logged under the key +:err+.
+      # 
+      # @return [String] log text, ready to be printed out
       def _call(severity, time, progname, data)
         strs = ''.dup
         # Main message
@@ -135,7 +148,7 @@ module Ougai
 
       protected
 
-      # Ensure `awesompe_print` is loaded
+      # Ensure +awesompe_print+ is loaded
       def load_dependent
         require 'awesome_print'
       rescue LoadError

@@ -4,13 +4,24 @@ language: ruby
 cache: bundler
 rvm:
   - 2.5.1
+env:
+  global:
+    CC_TEST_REPORTER_ID=CODE_CLIMATE_TOKEN
 
 # Dependencies
 before_install: 
-  gem install bundler -v 1.16.5
+  # Bundler
+  - gem install bundler -v 1.16.5
+  # Code climate
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
 install:
   bundle install
 
 # Scripts
 script:
   rspec
+
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT

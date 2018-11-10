@@ -10,6 +10,8 @@ GEM
   specs:
     awesome_print (1.8.0)
     diff-lcs (1.3)
+    docile (1.3.1)
+    json (2.1.0)
     oj (3.7.0)
     ougai (1.7.0)
       oj (~> 3.4)
@@ -27,6 +29,11 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.8.0)
     rspec-support (3.8.0)
+    simplecov (0.16.1)
+      docile (~> 1.1)
+      json (>= 1.8, < 3)
+      simplecov-html (~> 0.10.0)
+    simplecov-html (0.10.2)
 
 PLATFORMS
   x64-mingw32
@@ -36,6 +43,7 @@ DEPENDENCIES
   ougai-formatters-customizable!
   rake (~> 10.0)
   rspec (~> 3.0)
+  simplecov
 
 BUNDLED WITH
    1.16.5

@@ -7,7 +7,7 @@ $LOAD_PATH.unshift File.expand_path('../lib', __dir__)
 require 'ougai'
 require 'ougai/formatters/customizable'
 require 'ougai/formatters/customizable/version'
-require 'awesome_print'
+require 'amazing_print'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

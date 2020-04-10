@@ -31,7 +31,6 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   # runtimes dependencies
-  spec.add_runtime_dependency 'awesome_print', '~>1.8', '>= 1.8.0'
   spec.add_runtime_dependency 'ougai', '~>1.7', '>= 1.7.0'
 
   # development specific dependencies. Used when +gem install --dev your_gem+

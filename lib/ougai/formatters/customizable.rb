@@ -24,7 +24,7 @@ module Ougai
         # color configuration has to be provided. The configuration can however
         # be empty
         #
-        # @param [Ougai::Formatters::Colors::Configuration] color_config the 
+        # @param [Ougai::Formatters::Colors::Configuration] color_config the
         #         color configuration to use
         #
         # @return [Proc] main message formatter
@@ -40,11 +40,11 @@ module Ougai
         end
 
         # Define the default error formatting to use which handles field
-        # exclusion and plain mode for awesome-print
+        # exclusion and plain mode for amazing-print
         #
         # @param [Array<Symbol>] excluded_fields list of key to exclude from
         #         +data+ before printing logs
-        # @param [Boolean] plain parameter to define if Awesome-Print renders
+        # @param [Boolean] plain parameter to define if Amazing-Print renders
         #         in plain mode or not
         #
         # @return [Proc] data formatter
@@ -59,7 +59,7 @@ module Ougai
 
         # Define the default error formatting to use.
         #
-        # @param [Integer] trace_indent space indentation to prepend before 
+        # @param [Integer] trace_indent space indentation to prepend before
         #         trace content
         #
         # @return [Proc] error formatter
@@ -80,10 +80,10 @@ module Ougai
       # @param [String] app_name application name (execution program name if nil)
       # @param [String] hostname hostname (hostname if nil)
       # @param [Hash] opts the initial values of attributes
-      # @option opts [String] :trace_max_lines (100) the value of 
+      # @option opts [String] :trace_max_lines (100) the value of
       #         trace_max_lines attribute
       # @option opts [String] :plain (false) the value of plain attribute
-      # @option opts [String] :excluded_fields ([]) the value of 
+      # @option opts [String] :excluded_fields ([]) the value of
       #         excluded_fields attribute
       # @option opts [Ougai::Formatters::Colors::Configuration] :color_config
       #         assign a color configuration.
@@ -126,7 +126,7 @@ module Ougai
       # @param [String] progname optional program name
       # @param [Hash] data log data. Main message is stored under the key +:msg+
       #         while errors are logged under the key +:err+.
-      # 
+      #
       # @return [String] log text, ready to be printed out
       def _call(severity, time, progname, data)
         strs = ''.dup
@@ -150,9 +150,9 @@ module Ougai
 
       # Ensure +awesompe_print+ is loaded
       def load_dependent
-        require 'awesome_print'
+        require 'amazing_print'
       rescue LoadError
-        puts 'You must install the awesome_print gem to use this output.'
+        puts 'You must install the amazing_print gem to use this output.'
         raise
       end
     end

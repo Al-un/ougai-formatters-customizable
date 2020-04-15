@@ -37,7 +37,7 @@ Gem::Specification.new do |spec|
   # development specific dependencies. Used when +gem install --dev your_gem+
   spec.add_development_dependency 'amazing_print', '~> 1.0'
   spec.add_development_dependency 'bundler', '~> 1.16'
-  spec.add_development_dependency 'rake', '~> 10.0'
+  spec.add_development_dependency 'rake', '~> 13.0'
   spec.add_development_dependency 'rspec', '~> 3.0'
   spec.add_development_dependency 'simplecov', '~> 0.16.1'
   spec.add_development_dependency 'simplecov-console', '~> 0.4.2'

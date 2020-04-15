@@ -15,6 +15,7 @@ Gem::Specification.new do |spec|
   DESC_BLOCK
   spec.homepage      = 'https://github.com/Al-un/ougai-formatters-customizable'
   spec.license       = 'MIT'
+  spec.required_ruby_version = Gem::Requirement.new('>= 2.4.0')
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
@@ -34,6 +35,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'ougai', '~>1.7', '>= 1.7.0'
 
   # development specific dependencies. Used when +gem install --dev your_gem+
+  spec.add_development_dependency 'amazing_print', '~> 1.0'
   spec.add_development_dependency 'bundler', '~> 1.16'
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec', '~> 3.0'

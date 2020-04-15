@@ -68,7 +68,7 @@ RSpec.describe Ougai::Formatters::Customizable do
     end
 
     context 'when data is not empty' do
-      it 'returns awesome_printed data' do
+      it 'returns amazing_printed data' do
         expect(subject.call(data)).to eq(data.ai)
       end
     end
@@ -80,8 +80,8 @@ RSpec.describe Ougai::Formatters::Customizable do
       it 'prints permitted fields' do
         printed_data = subject.call(data)
         data_clone.delete(:ip_address)
-        awesome_print_data = subject.call(data_clone)
-        expect(printed_data).to eq(awesome_print_data)
+        amazing_print_data = subject.call(data_clone)
+        expect(printed_data).to eq(amazing_print_data)
       end
 
       it 'does not print excluded fields' do

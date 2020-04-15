@@ -5,7 +5,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/eaf20e90252260db1b68/maintainability)](https://codeclimate.com/github/Al-un/ougai-formatters-customizable/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/eaf20e90252260db1b68/test_coverage)](https://codeclimate.com/github/Al-un/ougai-formatters-customizable/test_coverage)
 
-A fully customizable formatters for [Ougai](https://github.com/tilfin/ougai) 
+A fully customizable formatters for [Ougai](https://github.com/tilfin/ougai)
 library. Customization is about formatting and colorization
 
 **Formatting**
@@ -26,7 +26,7 @@ be extended to custom formatters as well.
 In your Gemfile, add *ougai-formatters-customizable* and its dependencies:
 
 ```ruby
-gem 'awesome_print'
+gem 'amazing_print'
 gem 'ougai'
 gem 'ougai-formatters-customizable'
 ```
@@ -39,7 +39,7 @@ formatter           = Ougai::Formatters::Customizable.new
 logger.formatter    = formatter
 ```
 
-The default *Customizable* configuration is exactly identical to a 
+The default *Customizable* configuration is exactly identical to a
 *Ougai::Formatters::Readable* as-of Ougai 1.7.0.
 
 #### Datetime format
@@ -52,13 +52,13 @@ formatter.datetime_format = '%H:%M:%S.%L' # print time only such as '15:42:36.24
 
 #### Message formatter: `format_msg`
 
-Main log message formatter is a `proc` which takes four arguments: 
+Main log message formatter is a `proc` which takes four arguments:
 
  - [String] severity: log severity. Is in capital letters
- - [String] datetime: log timestamp. Is already formatted according to `datetime_format`. 
+ - [String] datetime: log timestamp. Is already formatted according to `datetime_format`.
    Has to be treated like a String
  - [String] progname: optional program name
- - [Hash] data: structured log data. The main message is logged under the `:msg` key. 
+ - [Hash] data: structured log data. The main message is logged under the `:msg` key.
 
 Custom message formatter can be assigned at initialization via the key `format_msg`:
 
@@ -79,13 +79,13 @@ formatter = Ougai::Formatters::Customizable.new(
 
 #### Data formatter: `format_data`
 
-Data formatter is a `proc` which takes only `data` as argument. Custom data 
+Data formatter is a `proc` which takes only `data` as argument. Custom data
 formatter can be assigned at initialization via `format_data` key:
 
 ```ruby
 formatter = Ougai::Formatters::Customizable.new(
     format_data: proc do |data|
-        data.ai # Awesome-print printing
+        data.ai # Amazing-print printing
     end
 )
 ```
@@ -98,7 +98,7 @@ formatter = Ougai::Formatters::Customizable.new(
 
 #### Error formatter: `format_err`
 
-Error formatter is a `proc` with only `data` as argument and can be assigned at 
+Error formatter is a `proc` with only `data` as argument and can be assigned at
 initialization via the `format_err` key:
 
 ```ruby
@@ -129,7 +129,7 @@ are:
  - `:datetime`: datetime coloring
  - `:msg`: log main message coloring
 
-You can add your own subject if you need it in your custom formatters. 
+You can add your own subject if you need it in your custom formatters.
 
 Values can have three types:
 
@@ -167,17 +167,17 @@ color_configuration = Ougai::Formatters::Colors::Configuration.new(
  - A *custom* subject is always colored in blue regardless log severity
 
 **Notes**
- 
+
  - If `:severity` is not defined, it is loaded from a default configuration
- - If `:severity` is partially defined, missing severities are fetched from 
+ - If `:severity` is partially defined, missing severities are fetched from
    default configuration
- - Circular references are not checked and infinite loops can then be triggered. 
+ - Circular references are not checked and infinite loops can then be triggered.
 
 ## Integration
 
 #### Lograge / Lograge-sql
 
-I initially made this gem to couple Ougai with [lograge](https://github.com/roidrage/lograge)/[lograge-sql](https://github.com/iMacTia/lograge-sql). Lograge logs has to be 
+I initially made this gem to couple Ougai with [lograge](https://github.com/roidrage/lograge)/[lograge-sql](https://github.com/iMacTia/lograge-sql). Lograge logs has to be
 formatted in a way so that our custom formatters can catch it:
 
 ```ruby
@@ -189,7 +189,7 @@ config.lograge.formatter = Class.new do |fmt|
 end
 ```
 
-I chose this format because I am also using Loggly and it is pretty convenient 
+I chose this format because I am also using Loggly and it is pretty convenient
 to filter by `json.request.*` to fetch Lograge logs.
 
 If using lograge-sql, make sure that Lograge format it as a Hash so that we can
@@ -244,7 +244,7 @@ console_formatter = Ougai::Formatters::Customizable.new(
             lograge = data[:request].reject { |k, _v| LOGRAGE_REJECT.include?(k) }
                                     .map { |key, val| "#{key}: #{val}" }
                                     .join(', ')
-            msg = color_config.color(:msg, lograge, severity) 
+            msg = color_config.color(:msg, lograge, severity)
         # Standard text
         else
             msg = color_config.color(:msg, msg, severity)
